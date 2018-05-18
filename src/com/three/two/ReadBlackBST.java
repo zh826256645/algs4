@@ -118,4 +118,15 @@ public class ReadBlackBST<Key extends Comparable<Key>, Value> {
         keySet(x.right);
     }
 
+    private Node moveRedLeft(Node h) {
+        // 假设结点 h 为红色，h.left 和 h.left.left 都是黑色
+        // 将 h.left 或者 h.left 的子结点之一变红
+        flipColors(h);
+        if (isRed(h.right.left)) {
+            h.right = rotateRight(h.right);
+            h = rotateLeft(h);
+        }
+        return h;
+    }
+
 }
