@@ -1,8 +1,12 @@
 package com.three.two;
 
+import java.util.HashSet;
+
 public class ReadBlackBST<Key extends Comparable<Key>, Value> {
 
     private Node root;
+
+    public HashSet<Key> keys;
 
     private static final boolean RED = true;
     private static final boolean BLACK = false;
@@ -55,6 +59,63 @@ public class ReadBlackBST<Key extends Comparable<Key>, Value> {
     }
 
     public int size(Node x) {
-        return x.N;
+        return x == null ? 0 : x.N;
     }
+
+    public void put(Key key, Value val) {
+        // 查找 key，找到则更新其值，否则为它新建一个结点
+        root = put(root, key, val);
+        root.color = BLACK;
+    }
+
+    public Node put(Node h, Key key, Value val) {
+        if (h == null) {
+            // 标准的插入炒作，和父结点用红链接相连
+            return new Node(key, val, 1, RED);
+        }
+        int cmp = key.compareTo(h.key);
+        if (cmp < 0) h.left = put(h.left, key, val);
+        else if (cmp > 0) h.right = put(h.right, key, val);
+        else h.val = val;
+
+        if (isRed(h.right) && !isRed(h.left)) h = rotateLeft(h);
+        if (isRed(h.left) && isRed(h.left.left)) h = rotateRight(h);
+        if (isRed(h.left) && isRed(h.right)) flipColors(h);
+
+        h.N = size(h.left) + size(h.right) + 1;
+        return h;
+    }
+
+    public boolean containsKey(Key key) {
+        return get(key) != null;
+    }
+
+    public Value get(Key key) { return get(root, key); }
+
+    public Value get(Node h, Key key) {
+        if (h == null) {
+            return null;
+        } else {
+            int cmp = key.compareTo(h.key);
+            if (cmp < 0) return get(h.left, key);
+            else if (cmp > 0) return get(h.right, key);
+            else return h.val;
+        }
+    }
+
+    public HashSet<Key> keySet() {
+        keys = new HashSet<>();
+        keySet(root);
+        return keys;
+    }
+
+    private void keySet(Node x) {
+        if (x == null) {
+            return;
+        }
+        keys.add(x.key);
+        keySet(x.left);
+        keySet(x.right);
+    }
+
 }

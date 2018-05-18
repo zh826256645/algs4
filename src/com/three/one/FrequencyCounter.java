@@ -2,6 +2,7 @@ package com.three.one;
 
 import com.all.utils.StdIn;
 import com.three.two.BST;
+import com.three.two.ReadBlackBST;
 import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 import java.util.HashMap;
@@ -19,8 +20,9 @@ public class FrequencyCounter {
         int minlen = Integer.parseInt(args[0]);
 //        SequentialSearchST<String, Integer> st = new SequentialSearchST<>();
 //        BinarySearchST<String, Integer> st = new BinarySearchST<>(2000);
-        HashMap<String, Integer> st = new HashMap<>();
+//        HashMap<String, Integer> st = new HashMap<>();
 //        BST<String, Integer> st = new BST<>();
+        ReadBlackBST<String, Integer> st = new ReadBlackBST<>();
         while (!StdIn.isEmpty()) {
             // 构造符号表并统计频率
             String word = StdIn.readString();
