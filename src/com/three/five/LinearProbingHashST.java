@@ -76,6 +76,7 @@ public class LinearProbingHashST <Key, Value>{
 
         while (keys[i] != null) {
             Key keyToRedo = keys[i];
+
             Value valToRedo = vals[i];
             keys[i] = null;
             vals[i] = null;
