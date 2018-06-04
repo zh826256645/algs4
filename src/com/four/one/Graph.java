@@ -12,6 +12,8 @@ public class Graph {
     private int E;              // 边的数目
     private Bag<Integer>[] adj; // 邻接表
 
+    private static final String NEWLINE = System.getProperty("line.separator");
+
     public Graph(int V) {
         this.V = V;
         this.E = 0;
@@ -49,4 +51,11 @@ public class Graph {
         return adj[v];
     }
 
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        s.append(V + " vertices, " + E + " edges " + NEWLINE);
+        for (int v=0; v < V; v++) {
+
+        }
+    }
 }
