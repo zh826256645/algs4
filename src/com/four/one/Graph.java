@@ -42,8 +42,8 @@ public class Graph {
     }
 
     public void addEdge(int v, int w) {
-        adj[v].add(w);
-        adj[w].add(v);
+        adj[v].add(w);                      // 将 w 添加到 v 的链表中
+        adj[w].add(v);                      // 将 v 添加到 w 的链表中
         E++;
     }
 
@@ -53,9 +53,20 @@ public class Graph {
 
     public String toString() {
         StringBuilder s = new StringBuilder();
-        s.append(V + " vertices, " + E + " edges " + NEWLINE);
+        s.append(V).append(" vertices, ").append(E).append(" edges ").append(NEWLINE);
         for (int v=0; v < V; v++) {
-
+            s.append(v).append(": ");
+            for (int w : adj[v]) {
+                s.append(w).append(" ");
+            }
+            s.append(NEWLINE);
         }
+        return s.toString();
+    }
+
+    public static void main(String[] args) {
+        In in = new In(args[0]);
+        Graph G = new Graph(in);
+        System.out.println(G);
     }
 }
