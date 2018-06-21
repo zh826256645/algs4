@@ -4,29 +4,41 @@ import com.all.utils.In;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Queue;
 
-public class DepthFirstPaths implements Paths {
+/**
+ * 广度优先搜索
+ */
+public class BreadthFirstPaths implements Paths{
 
-    private boolean[] marked;    // 这个顶点上调用过dfs()了吗？
-    private int[] edgeTo;    // 从起点到一个顶点的已知路径上的最后一个顶点
-    private final int s;
+    private boolean[] marked;    // 到达该顶点的最短路径已知吗？
+    private int[] edgeTo;    // 到达该顶点的已知路径上的最后一个顶点
+    private final int s;    //起点
 
-    public DepthFirstPaths(Graph G, int s) {
+    public BreadthFirstPaths(Graph G, int s) {
         marked = new boolean[G.V()];
         edgeTo = new int[G.V()];
         this.s = s;
-        dfs(G, s);
+        bfs(G, s);
     }
 
-    private void dfs(Graph G, int v) {
-        marked[v] = true;
-        for (int w : G.adj(v)) {
-            if (!marked[w]) {
-                edgeTo[w] = v;
-                dfs(G, w);
+    private void bfs(Graph G, int s) {
+        Queue<Integer> queue = new LinkedList<>();
+        marked[s] = true;    // 标记起点
+        queue.offer(s);    // 将它加入队列
+        while (!queue.isEmpty()) {
+            int v = queue.poll();    // 从队列中删去下一个顶点
+            for (int w: G.adj(v)) {
+                if (!marked[w]) {    // 对于每个未被标记的相邻顶点
+                    edgeTo[w] = v;    // 保持最短路径的最后一条边
+                    marked[w] = true;    // 标记它，因为最短路径已知
+                    queue.offer(w);    // 并将它添加到队列中
+                }
             }
         }
     }
+
 
     @Override
     public boolean hasPathTo(int v) {
@@ -47,7 +59,7 @@ public class DepthFirstPaths implements Paths {
     public static void main(String[] args) {
         Graph G = new Graph(new In(args[0]));
         int s = Integer.parseInt(args[1]);
-        Paths search = new DepthFirstPaths(G, s);
+        Paths search = new BreadthFirstPaths(G, s);
         for (int v = 0; v < G.V(); v++) {
             System.out.print(s + " to " + v + ":　");
             if (search.hasPathTo(v)) {
